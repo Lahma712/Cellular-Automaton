@@ -10,14 +10,15 @@ from kivy.clock import Clock
 import time
 from Grid import Grid
 from Cells import Cells
-from Cells import drawCells
+from Cells import drawCell
 from Cells import nextGenLive
+from Cells import drawFrame
+from line_profiler import LineProfiler
 import os
 import PIL
 import getpass
 import math
 import random
-from line_profiler import LineProfiler
 host = getpass.getuser()
 kivy.require("1.11.1")
 
@@ -73,14 +74,14 @@ class Drw(Widget):
             self.bg.reload()
 
     def AddClock(self, instance):
-        self.event = Clock.schedule_interval(self.Add, 0.06)
+        self.event = Clock.schedule_interval(self.Add, 0.01)
         self.event()
 
     def AddClockCancel(self, instance):
         self.event.cancel()
     
     def SubClock(self, instance):
-        self.event = Clock.schedule_interval(self.Sub, 0.06)
+        self.event = Clock.schedule_interval(self.Sub, 0.01)
         self.event()
 
     def SubClockCancel(self, instance):
@@ -94,14 +95,11 @@ class Drw(Widget):
         if self.cellIndexList not in self.CurrentCells:
             self.CurrentCells.append(self.cellIndexList)
             self.color = (255,0,0)
-            
-
         elif self.checkSingleClick == True and self.cellIndexList in self.CurrentCells:
             self.CurrentCells.remove(self.cellIndexList)
-            
             self.color = (0, 0,0)
 
-        drawCells(self.XcellList,self.YcellList, self.color, r"C:\Users\{}\Desktop\Grid.png".format(host))
+        drawCell(self.XcellList,self.YcellList, self.color, r"C:\Users\{}\Desktop\Grid.png".format(host))
         with self.canvas:
             self.bg.reload()
         
@@ -126,19 +124,16 @@ class Drw(Widget):
         self.onTouchFunctions(touch)
 
     def on_touch_move(self, touch):
-        
         self.checkSingleClick = False
         self.onTouchFunctions(touch)
 
     def StartClock(self, instance):
-        
         if self.check == True:
             self.Startevent.cancel()
             self.check = False
-            self.profile(self)
-
+        
         else:
-            self.Startevent = Clock.schedule_interval(self.Start, 0)
+            self.Startevent = Clock.schedule_interval(self.Start, 0.1)
             self.check = True
             self.Startevent()
 
@@ -147,24 +142,18 @@ class Drw(Widget):
         self.nextGen = nextGenLive(self.CurrentCells)
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
-        for cellIndex in self.deleteCells:
-            try:
-                drawCells(self.Cells[0][cellIndex[0]], self.Cells[1][cellIndex[1]], (0,0,0), r"C:\Users\{}\Desktop\Grid.png".format(host))
-            except(IndexError):
-                pass
-            with self.canvas:
-                self.bg.reload()
+        
+        try:
+            drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
+        except(IndexError):
+            pass
+        try:
+            drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
+        except(IndexError):
+            pass
 
-        for cellIndex in self.CurrentCells:
-            try:
-                drawCells(self.Cells[0][cellIndex[0]],self.Cells[1][cellIndex[1]], (255,0,0), r"C:\Users\{}\Desktop\Grid.png".format(host))
-                
-            except(IndexError):
-                pass
-                
-            with self.canvas:
-                self.bg.reload()
-
+        with self.canvas:
+            self.bg.reload()
     
 class G0L(App):
     def build(self):
@@ -173,3 +162,9 @@ class G0L(App):
 if __name__ == "__main__":
     G0L().run()
     os.remove(r"C:\Users\{}\Desktop\Grid.png".format(host))
+
+
+# profiler = LineProfiler()
+# profiler_wrapper = profiler()
+# profiler_wrapper()
+# profiler.print_stats()
