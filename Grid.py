@@ -2,6 +2,7 @@ from PIL import Image, ImageDraw
 import random
 import getpass
 host = getpass.getuser()
+
 def Grid(hCellCount, Width, Height):
     Im = Image.new("RGB", (Width, Height), (0,0,0))
     draw = ImageDraw.Draw(Im)
