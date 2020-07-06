@@ -3,7 +3,6 @@ from PIL import Image, ImageDraw
 import getpass
 host = getpass.getuser()
 
-
 def Cells(HGrid, VGrid):
 	def cells(grid, Cells):
 		for x in range(len(grid)-1):
@@ -16,7 +15,7 @@ def Cells(HGrid, VGrid):
 	cells(VGrid, XCells)
 	return XCells, YCells
 	
-def drawCells(X,Y, color, source):
+def drawCell(X,Y, color, source):
 
 	Im = Image.open(source)
 	draw = ImageDraw.Draw(Im)
@@ -25,6 +24,14 @@ def drawCells(X,Y, color, source):
 			draw.point([x, y], color)
 	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
 
+def drawFrame(source, currentCells, cells, color):
+	Im = Image.open(source)
+	draw = ImageDraw.Draw(Im)
+	for cellIndex in currentCells:
+		for y in cells[1][cellIndex[1]]:
+			for x in cells[0][cellIndex[0]]:
+				draw.point([x, y], color)
+	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
 
 def nextGenLive(CurrentCells):
 	global nextGen
