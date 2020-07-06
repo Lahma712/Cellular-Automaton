@@ -27,11 +27,18 @@ def drawCell(X,Y, color, source):
 def drawFrame(source, currentCells, cells, color):
 	Im = Image.open(source)
 	draw = ImageDraw.Draw(Im)
+	
 	for cellIndex in currentCells:
-		for y in cells[1][cellIndex[1]]:
-			for x in cells[0][cellIndex[0]]:
-				draw.point([x, y], color)
+		try:
+			for y in cells[1][cellIndex[1]]:
+				for x in cells[0][cellIndex[0]]:
+					draw.point([x, y], color)
+		except:
+			pass
+			
 	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+
+	return
 
 def nextGenLive(CurrentCells):
 	global nextGen
@@ -52,7 +59,7 @@ def nextGenLive(CurrentCells):
 		elif [cell[0]-1, cell[1]] not in neighbours:
 			neighbours += [[cell[0]-1, cell[1]]]
 
-		
+
 		if [cell[0], cell[1]+1] in CurrentCells:
 			numLiveCells +=1
 		elif [cell[0], cell[1]+1] not in neighbours:
