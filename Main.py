@@ -24,8 +24,8 @@ kivy.require("1.11.1")
 
 
 class Drw(Widget):
-    Width = int(input("\nScreen width: "))
-    Height = int(input("\nScreen height: "))
+    Width = int(input("\nWindow width (in pixels): "))
+    Height = int(input("\nWindow height (in pixels): "))
     time.sleep(1)
     Window.size = (Width, Height)
     CurrentCells = []
@@ -133,7 +133,7 @@ class Drw(Widget):
             self.check = False
         
         else:
-            self.Startevent = Clock.schedule_interval(self.Start, 0.09)
+            self.Startevent = Clock.schedule_interval(self.Start, 0.1)
             self.check = True
             self.Startevent()
 
@@ -142,19 +142,13 @@ class Drw(Widget):
         self.nextGen = nextGenLive(self.CurrentCells)
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
-        try:
-            drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
-        except(IndexError):
-            pass
         
-        try:
-            drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
-        except(IndexError):
-            pass
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
         
-
         with self.canvas:
             self.bg.reload()
+        return
     
 class G0L(App):
     def build(self):
