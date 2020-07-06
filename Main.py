@@ -15,7 +15,6 @@ from Cells import nextGenLive
 import os
 import PIL
 import getpass
-import threading
 import math
 import random
 from line_profiler import LineProfiler
