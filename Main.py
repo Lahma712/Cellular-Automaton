@@ -133,7 +133,7 @@ class Drw(Widget):
             self.check = False
         
         else:
-            self.Startevent = Clock.schedule_interval(self.Start, 0.1)
+            self.Startevent = Clock.schedule_interval(self.Start, 0.09)
             self.check = True
             self.Startevent()
 
@@ -142,15 +142,16 @@ class Drw(Widget):
         self.nextGen = nextGenLive(self.CurrentCells)
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
+        try:
+            drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
+        except(IndexError):
+            pass
         
         try:
             drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
         except(IndexError):
             pass
-        try:
-            drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
-        except(IndexError):
-            pass
+        
 
         with self.canvas:
             self.bg.reload()
