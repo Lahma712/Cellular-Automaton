@@ -8,7 +8,7 @@ def Grid(hCellCount, Width, Height):
     draw = ImageDraw.Draw(Im)
     
     def contin(a, b, c, ExcessPixels, CellWidth, Axis, CellCount, C, counter, intv): #fuction that continues the algorithm with parameters given from the init function
-        C += CellWidth+a
+        C += CellWidth+a #second grid pixel after 0 is placed a little sooner
         Axis += [C]
         for _ in range(ExcessPixels-1): #loop that places pixels with adjusted distance due to excess pixels ('b' is +1 or +0 depending if number of Excesspixels is less/more than half number of cells)
             C += CellWidth+b
@@ -61,7 +61,7 @@ def Grid(hCellCount, Width, Height):
     HGrid = [0]
     VGrid = [0]
     
-    gcolor = (50,50,50)
+    gcolor = (30,30,30)
     grid(HGrid, vCellCount, vCellWidth, vExcessPixels)
     grid(VGrid, hCellCount, hCellWidth, hExcessPixels)
     
