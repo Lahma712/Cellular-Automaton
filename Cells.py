@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw
 import getpass
 host = getpass.getuser()
 
-def Cells(HGrid, VGrid):
+def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
 	def cells(grid, Cells):
 		for x in range(len(grid)-1):
 			cell = [y for y in range(grid[x]+1, grid[x+1])]
@@ -15,7 +15,7 @@ def Cells(HGrid, VGrid):
 	cells(VGrid, XCells)
 	return XCells, YCells
 	
-def drawCell(X,Y, color, source):
+def drawCell(X,Y, color, source): #function that draws a single cell when you click on one
 
 	Im = Image.open(source)
 	draw = ImageDraw.Draw(Im)
@@ -24,7 +24,7 @@ def drawCell(X,Y, color, source):
 			draw.point([x, y], color)
 	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
 
-def drawFrame(source, currentCells, cells, color):
+def drawFrame(source, currentCells, cells, color): #function that draws the frames when the game is running
 	Im = Image.open(source)
 	draw = ImageDraw.Draw(Im)
 	
@@ -40,7 +40,7 @@ def drawFrame(source, currentCells, cells, color):
 
 	return
 
-def nextGenLive(CurrentCells):
+def nextGenLive(CurrentCells): #function that creates the new CurrentCells, so the next generation of cells
 	global nextGen
 	nextGen = []
 	nextGenDel = []
