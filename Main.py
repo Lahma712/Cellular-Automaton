@@ -83,7 +83,6 @@ class Drw(Widget):
     def SubClock(self, instance):
         self.event = Clock.schedule_interval(self.Sub, 0.01)#starts clock to continually zoom in
         self.event()
-        self.event()
 
     def SubClockCancel(self, instance):
         self.event.cancel()#cancels clock when you release the button
