@@ -27,17 +27,21 @@ class Drw(Widget):
     Height = int(input("\nWindow height (in pixels): "))
     time.sleep(1)
     Window.size = (Width, Height)
+    GWidth = int(Width) 
+    GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
+    
     CurrentCells = [] #holds current live cells of the frame in form of columns/rows. 2D list e.g [[0,0], [4,5], .... , [column, row]]
     deleteCells = [] 
     def __init__(self,**kwargs):
         super(Drw, self).__init__(**kwargs)
         self.CellCount = 50 #initial number of columns
+        
         with self.canvas:
             self.check = False
-            self.Grids = Grid(self.CellCount, self.Width, self.Height) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
+            self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
             self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
 
-            self.bg = Image(source= r"C:\Users\{}\Desktop\Grid.png".format(host), pos=(0,0), size = (self.Width, self.Height))
+            self.bg = Image(source= r"C:\Users\{}\Desktop\Grid.png".format(host), pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight))
             
             self.add = Button(text = "zoom out", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos = (0, 0))
             self.sub = Button(text="zoom in", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 0.75*self.Width, 0))
@@ -60,7 +64,7 @@ class Drw(Widget):
     def Add(self, instance):
 
         self.CellCount += 1
-        self.Grids = Grid(self.CellCount, self.Width, self.Height) #new grid dataset is made when zoomed out
+        self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight) #new grid dataset is made when zoomed out
         self.Cells = Cells(self.Grids[0], self.Grids[1]) #new cell dataset is made when zoomed out 
         drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
         drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
@@ -69,7 +73,7 @@ class Drw(Widget):
 
     def Sub(self, instance):
         self.CellCount -= 1
-        self.Grids = Grid(self.CellCount, self.Width, self.Height)#new grid dataset is made when zoomed in
+        self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight)#new grid dataset is made when zoomed in
         self.Cells = Cells(self.Grids[0], self.Grids[1])#new cell dataset is made when zoomed in
         drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
         drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
