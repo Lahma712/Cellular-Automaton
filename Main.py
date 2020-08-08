@@ -22,7 +22,6 @@ import random
 host = getpass.getuser()
 kivy.require("1.11.1")
 
-
 class Drw(Widget):
     Width = int(input("\n\nWindow width (in pixels): "))
     Height = int(input("\nWindow height (in pixels): "))
@@ -41,7 +40,7 @@ class Drw(Widget):
             self.bg = Image(source= r"C:\Users\{}\Desktop\Grid.png".format(host), pos=(0,0), size = (self.Width, self.Height))
             
             self.add = Button(text = "zoom out", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos = (0, 0))
-            self.sub = Button(text="zoom in", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos=(self.Width - self.Width * 0.25, 0))
+            self.sub = Button(text="zoom in", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 0.75*self.Width, 0))
             
             self.add.bind(on_press= self.AddClock)
             self.add.bind(on_release = self.AddClockCancel)
@@ -50,9 +49,13 @@ class Drw(Widget):
             self.add_widget(self.sub)
             self.add_widget(self.add)
 
-            self.start = Button(text="start", font_size=self.Height*0.05, size = (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 2.5*(self.Width * 0.25), 0))
+            self.start = Button(text="start", font_size=self.Height*0.05, size = (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 0.50*self.Width, 0))
             self.start.bind(on_press = self.StartClock)
             self.add_widget(self.start)
+
+            self.clear = Button(text="clear", font_size=self.Height*0.05, size = (self.Width *0.25, self.Height*0.10), pos =(self.Width - 0.25*self.Width, 0))
+            self.clear.bind(on_press = self.Clear)
+            self.add_widget(self.clear)
 
     def Add(self, instance):
 
@@ -149,6 +152,14 @@ class Drw(Widget):
         with self.canvas:
             self.bg.reload()
         return
+
+    def Clear(self, instance): #clears grid
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (0,0,0))
+        self.deleteCells = []
+        self.CurrentCells =[]
+        self.bg.reload()
+        self.Startevent.cancel()
+        self.check = False
     
 class G0L(App):
     def build(self):
