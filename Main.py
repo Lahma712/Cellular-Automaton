@@ -146,7 +146,7 @@ class Drw(Widget):
 
     def Start(self, instance):
         
-        self.nextGen = nextGenLive(self.CurrentCells) #creates the next generation of live cells based on CurrentCells + list of cells which die in the next generation
+        self.nextGen = nextGenLive(self.CurrentCells, len(self.Cells[0])-1, len(self.Cells[1])-1) #creates the next generation of live cells based on CurrentCells + list of cells which die in the next generation
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
         

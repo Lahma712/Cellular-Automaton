@@ -40,7 +40,7 @@ def drawFrame(source, currentCells, cells, color): #function that draws the fram
 
 	return
 
-def nextGenLive(CurrentCells): #function that creates the new CurrentCells, so the next generation of cells
+def nextGenLive(CurrentCells, Xedge, Yedge): #function that creates the new CurrentCells, so the next generation of cells
 	global nextGen
 	nextGen = []
 	nextGenDel = []
@@ -48,48 +48,54 @@ def nextGenLive(CurrentCells): #function that creates the new CurrentCells, so t
 	
 	for cell in CurrentCells:
 		numLiveCells = 0
-		
-		if [cell[0]+1, cell[1]] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0]+1, cell[1]] not in neighbours:
-			neighbours += [[cell[0]+1, cell[1]]]
 
-		if [cell[0]-1, cell[1]] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0]-1, cell[1]] not in neighbours:
-			neighbours += [[cell[0]-1, cell[1]]]
+		if cell[0] != Xedge: #the first if conditions check if the cell is on the X or Y edge of the screen
+			if [cell[0]+1, cell[1]] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0]+1, cell[1]] not in neighbours:
+				neighbours += [[cell[0]+1, cell[1]]]
 
+		if cell[0] != 0:
+			if [cell[0]-1, cell[1]] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0]-1, cell[1]] not in neighbours:
+				neighbours += [[cell[0]-1, cell[1]]]
 
-		if [cell[0], cell[1]+1] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0], cell[1]+1] not in neighbours:
-			neighbours += [[cell[0], cell[1]+1]]
+		if cell[1] != Yedge:
+			if [cell[0], cell[1]+1] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0], cell[1]+1] not in neighbours:
+				neighbours += [[cell[0], cell[1]+1]]
 
-		if [cell[0], cell[1]-1] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0], cell[1]-1] not in neighbours:
-			neighbours += [[cell[0], cell[1]-1]]
+		if cell[1] != 0:
+			if [cell[0], cell[1]-1] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0], cell[1]-1] not in neighbours:
+				neighbours += [[cell[0], cell[1]-1]]
 
-		if [cell[0]+1, cell[1]+1] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0]+1, cell[1]+1] not in neighbours:
-			neighbours += [[cell[0]+1, cell[1]+1]]
-		
-		if [cell[0]+1, cell[1]-1] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0]+1, cell[1]-1] not in neighbours:
-			neighbours += [[cell[0]+1, cell[1]-1]]
-		
-		if [cell[0]-1, cell[1]+1] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0]-1, cell[1]+1] not in neighbours:
-			neighbours += [[cell[0]-1, cell[1]+1]]
+		if cell[0] != -1 and cell[0] != Xedge and cell[1] != Yedge:
+			if [cell[0]+1, cell[1]+1] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0]+1, cell[1]+1] not in neighbours:
+				neighbours += [[cell[0]+1, cell[1]+1]]
 
-		
-		if [cell[0]-1, cell[1]-1] in CurrentCells:
-			numLiveCells +=1
-		elif [cell[0]-1, cell[1]-1] not in neighbours:
-			neighbours += [[cell[0]-1, cell[1]-1]]	
+		if cell[1] != 0 and cell[0] != Xedge:
+			if [cell[0]+1, cell[1]-1] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0]+1, cell[1]-1] not in neighbours:
+				neighbours += [[cell[0]+1, cell[1]-1]]
+
+		if cell[0] != 0 and cell[1] != Yedge:
+			if [cell[0]-1, cell[1]+1] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0]-1, cell[1]+1] not in neighbours:
+				neighbours += [[cell[0]-1, cell[1]+1]]
+
+		if cell[0] != 0 and cell[1] != 0:
+			if [cell[0]-1, cell[1]-1] in CurrentCells:
+				numLiveCells +=1
+			elif [cell[0]-1, cell[1]-1] not in neighbours:
+				neighbours += [[cell[0]-1, cell[1]-1]]	
 		
 		
 		if (numLiveCells == 2 or numLiveCells == 3) and cell not in nextGen:
