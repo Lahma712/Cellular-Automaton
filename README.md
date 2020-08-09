@@ -1,3 +1,3 @@
 # Conway-s-Game-of-Life
 
-![Imgur Video](https://giphy.com/gifs/LMF8B9PsRORCTj9v9e.gif)
+![gif](https://media.giphy.com/media/LMF8B9PsRORCTj9v9e/giphy.gif)
