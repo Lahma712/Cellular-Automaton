@@ -13,7 +13,6 @@ from Cells import Cells
 from Cells import drawCell
 from Cells import nextGenLive
 from Cells import drawFrame
-#from line_profiler import LineProfiler
 import os
 import PIL
 import getpass
@@ -174,7 +173,4 @@ if __name__ == "__main__":
     os.remove(r"C:\Users\{}\Desktop\Grid.png".format(host)) 
 
 
-# profiler = LineProfiler()
-# profiler_wrapper = profiler()
-# profiler_wrapper()
-# profiler.print_stats()
+
