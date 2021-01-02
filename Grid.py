@@ -4,7 +4,7 @@ import getpass
 host = getpass.getuser()
 
 def Grid(hCellCount, Width, Height):
-    Im = Image.new("RGB", (Width, Height), (0,0,0))
+    Im = Image.new("RGB", (Width, Height), (77,0,255))
     draw = ImageDraw.Draw(Im)
     
     def contin(a, b, c, ExcessPixels, CellWidth, Axis, CellCount, C, counter, intv): #fuction that continues the algorithm with parameters given from the init function
@@ -61,7 +61,7 @@ def Grid(hCellCount, Width, Height):
     HGrid = [0]
     VGrid = [0]
     
-    gcolor = (30,30,30)
+    gcolor = (20,20,20)
     grid(HGrid, vCellCount, vCellWidth, vExcessPixels)
     grid(VGrid, hCellCount, hCellWidth, hExcessPixels)
     

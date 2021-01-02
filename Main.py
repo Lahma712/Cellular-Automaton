@@ -13,7 +13,7 @@ from Cells import Cells
 from Cells import drawCell
 from Cells import nextGenLive
 from Cells import drawFrame
-from line_profiler import LineProfiler
+#from line_profiler import LineProfiler
 import os
 import PIL
 import getpass
@@ -66,8 +66,8 @@ class Drw(Widget):
         self.CellCount += 1
         self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight) #new grid dataset is made when zoomed out
         self.Cells = Cells(self.Grids[0], self.Grids[1]) #new cell dataset is made when zoomed out 
-        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
-        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,239,0))
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (77,0,255))
         with self.canvas:
             self.bg.reload()
 
@@ -75,8 +75,8 @@ class Drw(Widget):
         self.CellCount -= 1
         self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight)#new grid dataset is made when zoomed in
         self.Cells = Cells(self.Grids[0], self.Grids[1])#new cell dataset is made when zoomed in
-        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0))
-        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0))
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,239,0))
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (77,0,255))
         with self.canvas:
             self.bg.reload()
 
@@ -101,10 +101,10 @@ class Drw(Widget):
 
         if self.cellIndexList not in self.CurrentCells: #checks if the cell you clicked is already clicked, if not the [column, pair] gets added to CurrentCells and the cell gets colored
             self.CurrentCells.append(self.cellIndexList)
-            self.color = (255,0,0)
+            self.color = (255,239,0)
         elif self.checkSingleClick == True and self.cellIndexList in self.CurrentCells: #if you only clicked once, and on a cell that is already clicked/activated, it gets erased again
             self.CurrentCells.remove(self.cellIndexList)
-            self.color = (0, 0,0)
+            self.color = (77, 0,255)
 
         drawCell(self.XcellList,self.YcellList, self.color, r"C:\Users\{}\Desktop\Grid.png".format(host)) #function that draws (or erases, based on the previous conditions) the cell you clicked
         with self.canvas:
@@ -150,15 +150,15 @@ class Drw(Widget):
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
         
-        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (0,0,0)) #deletes cells
-        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,0,0)) #creates cells
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.deleteCells, self.Cells, (77,0,255)) #deletes cells
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (255,239,0)) #creates cells
         
         with self.canvas:
             self.bg.reload()
         return
 
     def Clear(self, instance): #clears grid
-        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (0,0,0))
+        drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.CurrentCells, self.Cells, (77,0,255))
         self.deleteCells = []
         self.CurrentCells =[]
         self.bg.reload()
