@@ -2,6 +2,7 @@ from Grid import Grid
 from PIL import Image, ImageDraw
 import getpass
 host = getpass.getuser()
+from io import BytesIO
 
 def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
 	def cells(grid, Cells):
@@ -15,18 +16,16 @@ def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of ever
 	cells(VGrid, XCells)
 	return XCells, YCells
 	
-def drawCell(X,Y, color, source): #function that draws a single cell when you click on one
+def drawCell(X,Y, color, draw): #function that draws a single cell when you click on one
 
-	Im = Image.open(source)
-	draw = ImageDraw.Draw(Im)
+	
 	for y in Y:
 		for x in X:
 			draw.point([x, y], color)
-	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+	
 
-def drawFrame(source, currentCells, cells, color): #function that draws the frames when the game is running
-	Im = Image.open(source)
-	draw = ImageDraw.Draw(Im)
+def drawFrame(draw, currentCells, cells, color): #function that draws the frames when the game is running
+	
 	
 	for cellIndex in currentCells:
 		try:
@@ -36,7 +35,7 @@ def drawFrame(source, currentCells, cells, color): #function that draws the fram
 		except:
 			pass
 			
-	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+	
 
 	return
 
