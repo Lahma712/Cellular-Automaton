@@ -1,9 +1,3 @@
-from PIL import Image, ImageDraw
-import random
-import getpass
-host = getpass.getuser()
-from io import BytesIO
-
 def Grid(hCellCount, Width, Height, source, draw):
     
     

@@ -2,31 +2,26 @@ import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image as Bg
-from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
+from kivy.core.image import Image as CoreImage
 from kivy.clock import Clock
-import time
 from Grid import Grid
 from Cells import Cells
 from Cells import drawCell
 from Cells import nextGenLive
 from Cells import drawFrame
-import os
 from PIL import Image, ImageDraw
-import getpass
 import math
-import random
-host = getpass.getuser()
-kivy.require("2.0.0")
 from io import BytesIO
-from kivy.core.image import Image as CoreImage
+
+
+kivy.require("2.0.0")
 
 class Drw(Widget):
-    Width = 800
-    Height = 800
-    time.sleep(1)
+    Width = 500
+    Height = 500
     Window.size = (Width, Height)
     GWidth = int(Width) 
     GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
@@ -48,15 +43,15 @@ class Drw(Widget):
             self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
             self.byte_io = BytesIO()
             self.Im.save(self.byte_io, 'PNG')
-            self.bg = Bg(texture = self.ImageByte(self, self.byte_io.getvalue()).texture, pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight))
+            self.bg = Bg(texture = self.ImageByte(self, self.byte_io.getvalue()).texture, pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight)) #background
             
             self.add = Button(text = "zoom out", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos = (0, 0))
             self.sub = Button(text="zoom in", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 0.75*self.Width, 0))
             
             self.add.bind(on_press= self.AddClock)
-            self.add.bind(on_release = self.AddClockCancel)
+            self.add.bind(on_release = self.ClockCancel)
             self.sub.bind(on_press = self.SubClock)
-            self.sub.bind(on_release = self.SubClockCancel)
+            self.sub.bind(on_release = self.ClockCancel)
             self.add_widget(self.sub)
             self.add_widget(self.add)
 
@@ -70,26 +65,26 @@ class Drw(Widget):
             
 
     def ImageByte(self, instance, ImageByte):
-        self.buf = BytesIO(ImageByte)
-        self.Cim = CoreImage(self.buf, ext= 'png')
-        
-        return self.Cim
+        self.Buffer = BytesIO(ImageByte)
+        self.BgIm = CoreImage(self.Buffer, ext= 'png')
+        return self.BgIm
+    def save(self, instance):
+        self.byte_io = BytesIO()
+        self.Im.save(self.byte_io, 'PNG')
+        with self.canvas:
+            self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
 
     def Add(self, instance):
         self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (0,0,0))
         self.draw = ImageDraw.Draw(self.Im)
         self.byte_io = BytesIO()
         self.Im.save(self.byte_io, 'PNG')
-
         self.CellCount += 1
         self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.byte_io, self.draw) #new grid dataset is made when zoomed out
         self.Cells = Cells(self.Grids[0], self.Grids[1]) #new cell dataset is made when zoomed out 
         drawFrame(self.draw, self.CurrentCells, self.Cells, (255,0,0))
         drawFrame(self.draw, self.deleteCells, self.Cells, (0,0,0))
-        self.byte_io = BytesIO()
-        self.Im.save(self.byte_io, 'PNG')
-        with self.canvas:
-            self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
+        self.save(self)
 
     def Sub(self, instance):
         self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (0,0,0))
@@ -102,23 +97,17 @@ class Drw(Widget):
         self.Cells = Cells(self.Grids[0], self.Grids[1])#new cell dataset is made when zoomed in
         drawFrame(self.draw, self.CurrentCells, self.Cells, (255,0,0))
         drawFrame(self.draw, self.deleteCells, self.Cells, (0,0,0))
-        self.byte_io = BytesIO()
-        self.Im.save(self.byte_io, 'PNG')
-        with self.canvas:
-            self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
+        self.save(self)
 
     def AddClock(self, instance):
         self.event = Clock.schedule_interval(self.Add, 0.01) #starts clock to continually zoom out
         self.event()
 
-    def AddClockCancel(self, instance):
-        self.event.cancel() #cancels clock when you release the button
-    
     def SubClock(self, instance):
         self.event = Clock.schedule_interval(self.Sub, 0.01)#starts clock to continually zoom in
         self.event()
 
-    def SubClockCancel(self, instance):
+    def ClockCancel(self, instance):
         self.event.cancel()#cancels clock when you release the button
 
     def Draw(self, instance, X):
@@ -134,10 +123,7 @@ class Drw(Widget):
             self.color = (0, 0,0)
 
         drawCell(self.XcellList,self.YcellList, self.color, self.draw) #function that draws (or erases, based on the previous conditions) the cell you clicked
-        self.byte_io = BytesIO()
-        self.Im.save(self.byte_io, 'PNG')
-        with self.canvas:
-            self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
+        self.save(self)
         
 
     def onTouchFunctions(self, touch):
@@ -169,31 +155,22 @@ class Drw(Widget):
             self.check = False
         
         else:
-            self.Startevent = Clock.schedule_interval(self.Start, 0.1)
+            self.Startevent = Clock.schedule_interval(self.Start, 0.07)
             self.check = True
             self.Startevent()
 
     def Start(self, instance):
-        
         self.nextGen = nextGenLive(self.CurrentCells, len(self.Cells[0])-1, len(self.Cells[1])-1) #creates the next generation of live cells based on CurrentCells + list of cells which die in the next generation
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
-        
         drawFrame(self.draw, self.deleteCells, self.Cells, (0,0,0)) #deletes cells
         drawFrame(self.draw, self.CurrentCells, self.Cells, (255,0,0)) #creates cells
-
-        self.byte_io = BytesIO()
-        self.Im.save(self.byte_io, 'PNG')
-        with self.canvas:
-            self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
+        self.save(self)
         return
 
     def Clear(self, instance): #clears grid
         drawFrame(self.draw, self.CurrentCells, self.Cells, (0,0,0))
-        self.byte_io = BytesIO()
-        self.Im.save(self.byte_io, 'PNG')
-        with self.canvas:
-            self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
+        self.save(self)
         self.deleteCells = []
         self.CurrentCells =[]
         self.Startevent.cancel()

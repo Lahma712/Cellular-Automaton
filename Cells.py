@@ -1,9 +1,3 @@
-from Grid import Grid
-from PIL import Image, ImageDraw
-import getpass
-host = getpass.getuser()
-from io import BytesIO
-
 def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
 	def cells(grid, Cells):
 		for x in range(len(grid)-1):
@@ -15,18 +9,15 @@ def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of ever
 	cells(HGrid, YCells)
 	cells(VGrid, XCells)
 	return XCells, YCells
-	
-def drawCell(X,Y, color, draw): #function that draws a single cell when you click on one
 
-	
+
+def drawCell(X,Y, color, draw): #function that draws a single cell when you click on one
 	for y in Y:
 		for x in X:
 			draw.point([x, y], color)
 	
 
 def drawFrame(draw, currentCells, cells, color): #function that draws the frames when the game is running
-	
-	
 	for cellIndex in currentCells:
 		try:
 			for y in cells[1][cellIndex[1]]:
@@ -34,9 +25,6 @@ def drawFrame(draw, currentCells, cells, color): #function that draws the frames
 					draw.point([x, y], color)
 		except:
 			pass
-			
-	
-
 	return
 
 def nextGenLive(CurrentCells, Xedge, Yedge): #function that creates the new CurrentCells, so the next generation of cells
