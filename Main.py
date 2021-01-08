@@ -15,9 +15,9 @@ from Cells import drawFrame
 from PIL import Image, ImageDraw
 import math
 from io import BytesIO
-
-
 kivy.require("2.0.0")
+
+
 
 class Drw(Widget):
     Width = 500
@@ -27,19 +27,23 @@ class Drw(Widget):
     GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
     CurrentCells = [] #holds current live cells of the frame in form of columns/rows. 2D list e.g [[0,0], [4,5], .... , [column, row]]
     deleteCells = []
-    Im = Image.new("RGB", (GWidth, GHeight), (0,0,0))
+    
+    BgColor = (0,0,0)
+    GridColor = (20,20,20)
+    CellColor = (255,0,0)
+
+    Im = Image.new("RGB", (GWidth, GHeight), BgColor)
     byte_io = BytesIO()
     Im.save(byte_io, 'PNG')
     
     def __init__(self,**kwargs):
         super(Drw, self).__init__(**kwargs)
         self.CellCount = 50 #initial number of columns
-        
         with self.canvas:
             self.check = False
             self.Im = Image.open(self.byte_io)
             self.draw = ImageDraw.Draw(self.Im)
-            self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.byte_io, self.draw) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
+            self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.draw, self.GridColor) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
             self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
             self.byte_io = BytesIO()
             self.Im.save(self.byte_io, 'PNG')
@@ -68,37 +72,35 @@ class Drw(Widget):
         self.Buffer = BytesIO(ImageByte)
         self.BgIm = CoreImage(self.Buffer, ext= 'png')
         return self.BgIm
+
     def save(self, instance):
         self.byte_io = BytesIO()
         self.Im.save(self.byte_io, 'PNG')
         with self.canvas:
             self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
 
-    def Add(self, instance):
-        self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (0,0,0))
+    def AddSub(self, instance):
+        self.Im = Image.new("RGB", (self.GWidth, self.GHeight), self.BgColor)
         self.draw = ImageDraw.Draw(self.Im)
         self.byte_io = BytesIO()
         self.Im.save(self.byte_io, 'PNG')
-        self.CellCount += 1
-        self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.byte_io, self.draw) #new grid dataset is made when zoomed out
-        self.Cells = Cells(self.Grids[0], self.Grids[1]) #new cell dataset is made when zoomed out 
-        drawFrame(self.draw, self.CurrentCells, self.Cells, (255,0,0))
-        drawFrame(self.draw, self.deleteCells, self.Cells, (0,0,0))
+        try:
+            self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.draw, self.GridColor)#new grid dataset is made when zoomed in
+            self.Cells = Cells(self.Grids[0], self.Grids[1])#new cell dataset is made when zoomed in
+            drawFrame(self.draw, self.CurrentCells, self.Cells, self.CellColor)
+            drawFrame(self.draw, self.deleteCells, self.Cells, self.BgColor)
+        except:
+            pass
         self.save(self)
+
+    def Add(self, instance):
+        self.CellCount += 1
+        self.AddSub(self)
 
     def Sub(self, instance):
-        self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (0,0,0))
-        self.draw = ImageDraw.Draw(self.Im)
-        self.byte_io = BytesIO()
-        self.Im.save(self.byte_io, 'PNG')
-
         self.CellCount -= 1
-        self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.byte_io, self.draw)#new grid dataset is made when zoomed in
-        self.Cells = Cells(self.Grids[0], self.Grids[1])#new cell dataset is made when zoomed in
-        drawFrame(self.draw, self.CurrentCells, self.Cells, (255,0,0))
-        drawFrame(self.draw, self.deleteCells, self.Cells, (0,0,0))
-        self.save(self)
-
+        self.AddSub(self)
+        
     def AddClock(self, instance):
         self.event = Clock.schedule_interval(self.Add, 0.01) #starts clock to continually zoom out
         self.event()
@@ -117,11 +119,10 @@ class Drw(Widget):
 
         if self.cellIndexList not in self.CurrentCells: #checks if the cell you clicked is already clicked, if not the [column, pair] gets added to CurrentCells and the cell gets colored
             self.CurrentCells.append(self.cellIndexList)
-            self.color = (255,0,0)
+            self.color = self.CellColor
         elif self.checkSingleClick == True and self.cellIndexList in self.CurrentCells: #if you only clicked once, and on a cell that is already clicked/activated, it gets erased again
             self.CurrentCells.remove(self.cellIndexList)
-            self.color = (0, 0,0)
-
+            self.color = self.BgColor
         drawCell(self.XcellList,self.YcellList, self.color, self.draw) #function that draws (or erases, based on the previous conditions) the cell you clicked
         self.save(self)
         
@@ -163,13 +164,13 @@ class Drw(Widget):
         self.nextGen = nextGenLive(self.CurrentCells, len(self.Cells[0])-1, len(self.Cells[1])-1) #creates the next generation of live cells based on CurrentCells + list of cells which die in the next generation
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
-        drawFrame(self.draw, self.deleteCells, self.Cells, (0,0,0)) #deletes cells
-        drawFrame(self.draw, self.CurrentCells, self.Cells, (255,0,0)) #creates cells
+        drawFrame(self.draw, self.deleteCells, self.Cells, self.BgColor) #deletes cells
+        drawFrame(self.draw, self.CurrentCells, self.Cells, self.CellColor) #creates cells
         self.save(self)
         return
 
     def Clear(self, instance): #clears grid
-        drawFrame(self.draw, self.CurrentCells, self.Cells, (0,0,0))
+        drawFrame(self.draw, self.CurrentCells, self.Cells, self.BgColor)
         self.save(self)
         self.deleteCells = []
         self.CurrentCells =[]
