@@ -17,8 +17,6 @@ import math
 from io import BytesIO
 kivy.require("2.0.0")
 
-
-
 class Drw(Widget):
     Width = 500
     Height = 500
@@ -27,7 +25,7 @@ class Drw(Widget):
     GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
     CurrentCells = [] #holds current live cells of the frame in form of columns/rows. 2D list e.g [[0,0], [4,5], .... , [column, row]]
     deleteCells = []
-    
+
     BgColor = (0,0,0)
     GridColor = (20,20,20)
     CellColor = (255,0,0)
@@ -174,7 +172,10 @@ class Drw(Widget):
         self.save(self)
         self.deleteCells = []
         self.CurrentCells =[]
-        self.Startevent.cancel()
+        try:
+            self.Startevent.cancel()
+        except:
+            pass
         self.check = False
     
 class G0L(App):
