@@ -6,6 +6,8 @@ and PIL (Python Imaging Library).
 
 <b>How to use: </b>
 
+Execute the <b>Main.py</b> file.
+
 Draw a shape on the plane by clicking and moving the mouse cursor.
 
 To erase a drawn cell, click on it again.
