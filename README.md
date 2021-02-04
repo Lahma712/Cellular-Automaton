@@ -19,3 +19,12 @@ To erase everything, click on the "clear" button.
 ![gif](https://media.giphy.com/media/cD0W6gHurzo0i3VShF/giphy.gif)
 
 (framerate/quality loss due to GIF conversion) 
+
+
+<b>Dependencies:</b>
+
+-Python 3.8
+
+-Kivy 2.0.0
+
+-PIL (Python Imaging Library)
