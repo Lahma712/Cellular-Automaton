@@ -16,4 +16,4 @@ To zoom in/out, click on the "zoom in"/"zoom out" buttons.
 
 To erase everything, click on the "clear" button.
 
-![gif](https://media.giphy.com/media/71AlAwQjdClSzjeC9W/giphy.gif)
+![gif](https://media.giphy.com/media/cD0W6gHurzo0i3VShF/giphy.gif)
