@@ -4,7 +4,7 @@ This is my Python implementation of the famous "Conway's Game of Life", which wa
 The game plays out on a 2D plane and is based on a 2D cellular automaton (see automata theory by <b>Stanislaw Marcin Ulam</b>). I implemented the GUI using Kivy 2.0.0
 and PIL (Python Imaging Library).
 
-<b>How to use: </b>
+# <b>How to use: </b>
 
 Execute the <b>Main.py</b> file.
 
@@ -23,7 +23,7 @@ To erase everything, click on the "clear" button.
 (framerate/quality loss due to GIF conversion) 
 
 
-<b>Dependencies:</b>
+# <b>Dependencies:</b>
 
 -Python 3.8
 
