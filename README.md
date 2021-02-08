@@ -6,17 +6,17 @@ and PIL (Python Imaging Library).
 
 # <b>How to use: </b>
 
-Execute the <b>Main.py</b> file.
+-Execute the <b>Main.py</b> file.
 
-Draw a shape on the plane by clicking and moving the mouse cursor.
+-Draw a shape on the plane by clicking and moving the mouse cursor.
 
-To erase a drawn cell, click on it again.
+-To erase a drawn cell, click on it again.
 
-To start the automaton, click on the "Start" button (you can also pause by clicking on it again).
+-To start the automaton, click on the "Start" button (you can also pause by clicking on it again).
 
-To zoom in/out, click on the "zoom in"/"zoom out" buttons.
+-To zoom in/out, click on the "zoom in"/"zoom out" buttons.
 
-To erase everything, click on the "clear" button. 
+-To erase everything, click on the "clear" button. 
 
 ![gif](https://media.giphy.com/media/cD0W6gHurzo0i3VShF/giphy.gif)
 
