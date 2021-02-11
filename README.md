@@ -30,3 +30,6 @@ and PIL (Python Imaging Library).
 -Kivy 2.0.0
 
 -PIL (Python Imaging Library)
+
+# <b>Sources: </b>
+- https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
