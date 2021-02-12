@@ -6,21 +6,30 @@ and PIL (Python Imaging Library).
 
 # <b>How to use: </b>
 
--Execute the <b>Main.py</b> file.
-
--Draw a shape on the plane by clicking and moving the mouse cursor.
-
--To erase a drawn cell, click on it again.
-
--To start the automaton, click on the "Start" button (you can also pause by clicking on it again).
-
--To zoom in/out, click on the "zoom in"/"zoom out" buttons.
-
--To erase everything, click on the "clear" button. 
+- Execute the <b>Main.py</b> file.
+- Draw a shape on the plane by clicking and moving the mouse cursor.
+- To erase a drawn cell, click on it again.
+- To start the automaton, click on the "Start" button (you can also pause by clicking on it again).
+- To zoom in/out, click on the "zoom in"/"zoom out" buttons.
+- To erase everything, click on the "clear" button. 
 
 ![gif](https://media.giphy.com/media/cD0W6gHurzo0i3VShF/giphy.gif)
 
 (framerate/quality loss due to GIF conversion) 
+
+# <b>How it works: </b>
+
+The rules are very simple. You begin by drawing some cells onto the grid (in some arbitrary shape). 
+
+Each cell can either be "alive" or "dead", depending on how many living neighbours it has:
+
+- A dead cell with exactly 3 living neighbours becomes alive
+- A living cell with less than 2 neighbours dies out of isolation
+- A living cell with more than 3 neighbours dies out of overcrowding
+- A living cell with 2 or 3 neighbours stays alive
+
+The cells which you draw are considered to be "alive" (red cells). After starting the automaton, with each frame, the state of every cell is updated according to the 4 rules 
+described above.
 
 
 # <b>Dependencies:</b>
