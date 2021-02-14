@@ -6,7 +6,7 @@ and PIL (Python Imaging Library).
 
 # <b>How to use: </b>
 
-<b>Download the lastest release</b> and follow the instructions <b>or download the source code</b> and run the <i>GOL.py</i> from an IDE
+<b>Download the lastest release</b> and follow the instructions <b>or download the source code</b> and run <i>GOL.py</i> from an IDE
 
 - Draw a shape on the plane by clicking and moving the mouse cursor.
 - To erase a drawn cell, click on it again.
