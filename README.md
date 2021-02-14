@@ -4,7 +4,7 @@ This is my Python implementation of the famous "Conway's Game of Life", which wa
 The game plays out on a 2D plane and is based on a 2D cellular automaton (see automata theory by <b>Stanislaw Marcin Ulam</b>). I implemented the GUI using Kivy 2.0.0
 and PIL (Python Imaging Library).
 
-# <b>How to use: </b>
+# Instructions:
 
 <b>Download the lastest release</b> and follow the instructions <b>or download the source code</b> and run <i>GOL.py</i> from an IDE
 
@@ -14,11 +14,11 @@ and PIL (Python Imaging Library).
 - To zoom in/out, click on the "zoom in"/"zoom out" buttons.
 - To erase everything, click on the "clear" button. 
 
-![gif](https://media.giphy.com/media/cD0W6gHurzo0i3VShF/giphy.gif)
+<img src= "https://media.giphy.com/media/cD0W6gHurzo0i3VShF/giphy.gif" width=500>
 
 (framerate/quality loss due to GIF conversion) 
 
-# <b>How it works: </b>
+# How it works:
 
 The rules are very simple. You begin by drawing some cells onto the grid (in some arbitrary shape). 
 
@@ -33,7 +33,7 @@ The cells which you draw are considered to be "alive" (red cells). After startin
 described above.
 
 
-# <b>Dependencies:</b>
+# Dependencies:
 
 -Python 3.8
 
@@ -41,5 +41,5 @@ described above.
 
 -PIL (Python Imaging Library)
 
-# <b>Sources: </b>
+# Sources:
 - https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
