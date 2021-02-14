@@ -22,7 +22,7 @@ and PIL (Python Imaging Library).
 
 The rules are very simple. You begin by drawing some cells onto the grid (in some arbitrary shape). 
 
-Each cell can either be "alive" or "dead", depending on how many living neighbours it has:
+Each cell can either be "alive" or "dead". There are 4 rules that get applied to every cell:
 
 - A dead cell with exactly 3 living neighbours becomes alive
 - A living cell with less than 2 neighbours dies out of isolation
