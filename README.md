@@ -6,7 +6,8 @@ and PIL (Python Imaging Library).
 
 # <b>How to use: </b>
 
-- Execute the <b>Main.py</b> file.
+<b>Download the lastest release</b> and follow the instructions <b>or download the source code</b> and run the <i>GOL.py</i> from an IDE
+
 - Draw a shape on the plane by clicking and moving the mouse cursor.
 - To erase a drawn cell, click on it again.
 - To start the automaton, click on the "Start" button (you can also pause by clicking on it again).
