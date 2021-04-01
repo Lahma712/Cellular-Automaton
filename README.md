@@ -32,7 +32,14 @@ Each cell can either be "alive" or "dead". There are 4 rules:
 The cells which you draw are considered to be "alive" (red cells). After starting the automaton, with each frame, the state of every cell is updated according to the 4 rules 
 described above.
 
+# Changing the ruleset:
 
+You can also change the ruleset by changing the <b><i>survival rule</i></b> and/or <b><i>birth rule</i></b>. Playing around with the ruleset can give rise to interesting results!
+
+- Survival rule: Number of neighbouring cells a live cell must have in order to survive. The default is set to <b>3 or 2</b>
+- Birth rule: Number of neighbouring cells a dead cell must have in order to become alive. The default is set to <b>3</b>
+
+Note on syntax: The numbers have to be entered in a concatenated form, f.ex if the survival rule is <b>3 or 2</b>, you enter it as <b>32</b>
 # Dependencies:
 
 -Python 3.x
