@@ -6,6 +6,7 @@ from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
 from kivy.core.image import Image as CoreImage
+from kivy.uix.label import Label
 from kivy.clock import Clock
 from Grid import Grid
 from Cells import Cells
@@ -20,12 +21,13 @@ kivy.require("2.0.0")
 class Drw(Widget):
     Width = 500
     Height = 500
-    Window.size = (Width, Height)
+    Window.size = (Width*1.5, Height)
     GWidth = int(Width) 
     GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
     CurrentCells = [] #holds current live cells of the frame in form of columns/rows. 2D list e.g [[0,0], [4,5], .... , [column, row]]
     deleteCells = []
-
+    survRule = [3,2] #survivl rule: number of neighbours a cell must have to survive
+    birthRule= [3] #birth rule: number of neighbours a dead cell must have in order to become alive
     BgColor = (0,0,0)
     GridColor = (20,20,20)
     CellColor = (255,0,0)
@@ -65,6 +67,15 @@ class Drw(Widget):
             self.clear.bind(on_press = self.Clear)
             self.add_widget(self.clear)
             
+            self.SurvLabel = Label(text = "Survival Rule: ", pos = (550, 450), size = (0,0))
+            self.BirthLabel = Label(text = "Birth Rule: ", pos = (540, 400), size = (0,0))
+
+            self.SurvInput = TextInput(text = "32", pos = (600, 440), size = (90,27), font_size = 13)
+            self.BirthInput = TextInput(text = "3", pos = (600, 390), size = (90,27), font_size = 13)
+            self.add_widget(self.SurvInput)
+            self.add_widget(self.BirthInput)
+            self.survRule = [int(x) for x in self.SurvInput.text]
+            self.birthRule = [int(x) for x in self.BirthInput.text]
 
     def ImageByte(self, instance, ImageByte):
         self.Buffer = BytesIO(ImageByte)
@@ -149,6 +160,8 @@ class Drw(Widget):
         self.onTouchFunctions(touch)
 
     def StartClock(self, instance): 
+        self.survRule = [int(x) for x in self.SurvInput.text]
+        self.birthRule = [int(x) for x in self.BirthInput.text]
         if self.check == True:
             self.Startevent.cancel()
             self.check = False
@@ -159,19 +172,28 @@ class Drw(Widget):
             self.Startevent()
 
     def Start(self, instance):
-        self.nextGen = nextGenLive(self.CurrentCells, len(self.Cells[0])-1, len(self.Cells[1])-1) #creates the next generation of live cells based on CurrentCells + list of cells which die in the next generation
+
+        self.nextGen = nextGenLive(self.CurrentCells, len(self.Cells[0])-1, len(self.Cells[1])-1, self.survRule, self.birthRule) #creates the next generation of live cells based on CurrentCells + list of cells which die in the next generation
         self.deleteCells = self.nextGen[1]
         self.CurrentCells = self.nextGen[0]
         drawFrame(self.draw, self.deleteCells, self.Cells, self.BgColor) #deletes cells
         drawFrame(self.draw, self.CurrentCells, self.Cells, self.CellColor) #creates cells
         self.save(self)
-        return
+        
 
     def Clear(self, instance): #clears grid
-        drawFrame(self.draw, self.CurrentCells, self.Cells, self.BgColor)
-        self.save(self)
         self.deleteCells = []
         self.CurrentCells =[]
+        self.Img = Image.new("RGB", (self.GWidth, self.GHeight), self.BgColor)
+        self.byte_io = BytesIO()
+        self.Img.save(self.byte_io, 'PNG')
+        self.Im = Image.open(self.byte_io)
+        self.draw = ImageDraw.Draw(self.Im)
+        self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.draw, self.GridColor) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
+        self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
+        self.Im.save(self.byte_io, 'PNG')
+        self.save(self)
+
         try:
             self.Startevent.cancel()
         except:

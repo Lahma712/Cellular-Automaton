@@ -27,7 +27,7 @@ def drawFrame(draw, currentCells, cells, color): #function that draws the frames
 			pass
 	return
 
-def nextGenLive(CurrentCells, Xedge, Yedge): #function that creates the new CurrentCells, so the next generation of cells
+def nextGenLive(CurrentCells, Xedge, Yedge, survRule, birthRule): #function that creates the new CurrentCells, so the next generation of cells
 	global nextGen
 	nextGen = []
 	nextGenDel = []
@@ -85,10 +85,10 @@ def nextGenLive(CurrentCells, Xedge, Yedge): #function that creates the new Curr
 				neighbours += [[cell[0]-1, cell[1]-1]]	
 		
 		
-		if (numLiveCells == 2 or numLiveCells == 3) and cell not in nextGen:
+		if (numLiveCells in survRule) and cell not in nextGen:
 			nextGen += [cell]
 
-		if numLiveCells > 3 or numLiveCells < 2:
+		elif numLiveCells not in survRule and numLiveCells not in birthRule:
 			nextGenDel += [cell]
 	
 
@@ -118,7 +118,7 @@ def nextGenLive(CurrentCells, Xedge, Yedge): #function that creates the new Curr
 		if [Cell[0]-1, Cell[1]-1] in CurrentCells:
 			NumLiveCells +=1
 		
-		if NumLiveCells == 3 and Cell not in nextGen:
+		if NumLiveCells in birthRule and Cell not in nextGen:
 			nextGen += [Cell]
 
 
