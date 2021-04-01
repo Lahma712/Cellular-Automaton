@@ -45,7 +45,7 @@ These two examples show that a slight change in the ruleset (birth rule of 2 ins
 
 <img src= "https://media.giphy.com/media/LqVJ1OmDA9FxDeGdkL/giphy.gif" width=400> <img src= "https://media.giphy.com/media/FTxd4zJSSeyclND34B/giphy.gif" width=400> 
 
-You can also generate these self-replicating patterns which I find quite cool:
+By changing the ruleset, the possibilities become nearly endless. For example, you can also generate these self-replicating patterns which I think are quite interesting:
 
 <img src= "https://media.giphy.com/media/uYh4eHG2LgcACpHnTx/giphy.gif" width=400>
 
