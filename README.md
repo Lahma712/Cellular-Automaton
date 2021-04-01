@@ -39,7 +39,7 @@ You can also change the ruleset by changing the <b><i>survival rule</i></b> and/
 - Survival rule: Number of neighbouring cells a live cell must have in order to survive. The default is set to <b>3 or 2</b>
 - Birth rule: Number of neighbouring cells a dead cell must have in order to become alive. The default is set to <b>3</b>
 
-Note on syntax: The numbers have to be entered in a concatenated form, f.ex if the survival rule is <b>3 or 2</b>, you enter it as <b>32</b>
+<b>Note on the syntax:</b> The numbers have to be entered in a <b>concatenated form</b>, f.ex if the survival rule is <b>3 or 2</b>, you enter it as <b>32</b> (without any white spaces).
 # Dependencies:
 
 -Python 3.x
