@@ -14,7 +14,7 @@ and PIL (Python Imaging Library).
 - To zoom in/out, click on the "zoom in"/"zoom out" buttons.
 - To erase everything, click on the "clear" button. 
 
-<img src= "https://media.giphy.com/media/cD0W6gHurzo0i3VShF/giphy.gif" width=500>
+<img src= "https://media.giphy.com/media/LqVJ1OmDA9FxDeGdkL/giphy.gif" width=500>
 
 (framerate/quality loss due to GIF conversion) 
 
@@ -40,6 +40,15 @@ You can also change the ruleset by changing the <b><i>survival rule</i></b> and/
 - Birth rule: Number of neighbouring cells a dead cell must have in order to become alive. The default is set to <b>3</b>
 
 <b>Note on the syntax:</b> The numbers have to be entered in a <b>concatenated form</b>, f.ex if the survival rule is <b>3 or 2</b>, you enter it as <b>32</b> (without any white spaces).
+
+These two examples show that a slight change in the ruleset (birth rule of 2 instead of 3) can change the behaviour of the automaton drastically:
+
+<img src= "https://media.giphy.com/media/LqVJ1OmDA9FxDeGdkL/giphy.gif" width=400> <img src= "https://media.giphy.com/media/FTxd4zJSSeyclND34B/giphy.gif" width=400> 
+
+You can also generate these self-replicating patterns which I find quite cool:
+
+<img src= "https://media.giphy.com/media/uYh4eHG2LgcACpHnTx/giphy.gif" width=400>
+
 # Dependencies:
 
 -Python 3.x
